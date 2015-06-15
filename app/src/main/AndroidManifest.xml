@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.starnamu.projcet.airlineschedule"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <permission
+        android:name="com.starnamu.projcet.airlineschedule.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+
+    <uses-permission android:name="com.starnamu.airlineschdule.permission.MAPS_RECEIVE"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <uses-library android:name="com.google.android.maps"/>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBoKfFDsz7NjAUvR2iPbKyMcwomEgBqG5k"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <activity
+            android:name="com.starnamu.airlineschdule.Intro_Activity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!--<service
+            android:name=".awakeprocess.AwakeService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.starnamu.airlineschdule.awakeprocess.AwakeService"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".awakeprocess.AwakeReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.starnamu.airlineschdule.awakeprocess.ACTION_START"/>
+            </intent-filter>
+        </receiver>-->
+
+        <activity
+            android:name="com.starnamu.airlineschdule.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
+</manifest>

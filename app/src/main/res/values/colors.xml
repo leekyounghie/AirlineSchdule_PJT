@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ColorPrimary">#00897B</color>
+    <color name="ColorPrimaryDark">#00695C</color>
+    <color name="tabsScrollColor">#004D40</color>
+    <color name="ListViewIconDarkColor">#febababa</color>
+    <color name="ListViewIconLightColor">#fffafafa</color>
+    <color name="ListViewBacgroundColor">#004D40</color>
+    <color name="OptionListViewBacgroundColor">#07ffffff</color>
+</resources>

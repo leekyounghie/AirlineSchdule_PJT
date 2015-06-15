@@ -1,0 +1,216 @@
+package com.starnamu.airlineschdule.fragment;
+
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.starnamu.projcet.airlineschedule.R;
+
+/**
+ * Created by starnamu on 2015-06-08.
+ */
+public class GoogleMapFragment extends Fragment {
+
+    MapView mapView;
+    GoogleMap map;
+    LocationManager manager;
+    GPSListener gpsListener;
+    SensorManager sensorManager;
+    MySenserListener senserListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        gpsListener = new GPSListener();
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        senserListener = new MySenserListener();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.some_layout, container, false);
+
+        // Gets the MapView from the XML layout and creates it
+        mapView = (MapView) v.findViewById(R.id.mapview);
+        mapView.onCreate(savedInstanceState);
+
+        // Gets to GoogleMap from the MapView and does initialization stuff
+        map = mapView.getMap();
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.setMyLocationEnabled(true);
+
+        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+        MapsInitializer.initialize(this.getActivity());
+
+
+    /*    try {
+            MapsInitializer.initialize(this.getActivity());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }*/
+        // Updates the location and zoom of the MapView
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(126.451, 37.4692), 12);
+        map.animateCamera(cameraUpdate);
+
+
+        return v;
+    }
+
+    @Override
+    public void onPause() {
+        mapView.onPause();
+        super.onPause();
+        //내 위치 좌표 깜빡임 멈춤
+        map.setMyLocationEnabled(false);
+
+        if (manager != null) {
+            manager.removeUpdates(gpsListener);
+        }
+
+        sensorManager.unregisterListener(senserListener);
+
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+
+        //내 위치 좌표 깜빡임 시작
+        map.setMyLocationEnabled(true);
+        requdstMyLocation();
+
+        sensorManager.registerListener(senserListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_UI);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    public void requdstMyLocation() {
+
+        // 위치 정보를 받을 리스너 생성
+
+        long minTime = 10000;
+        float minDistance = 0;
+
+        manager.removeUpdates(gpsListener);
+
+        // GPS를 이용한 위치 요청
+        manager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                minTime,
+                minDistance,
+                gpsListener);
+
+        // 네트워크를 이용한 위치 요청
+        manager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                minTime,
+                minDistance,
+                gpsListener);
+
+        // 위치 확인이 안되는 경우에도 최근에 확인된 위치 정보 먼저 확인
+        try {
+            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastLocation != null) {
+                Double latitude = lastLocation.getLatitude();
+                Double longitude = lastLocation.getLongitude();
+
+                String msg = "Latitude : " + latitude + "\nLongitude:" + longitude;
+                Log.i("requdstMyLocation()", msg);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        String msg = "위치 확인이 시작되었습니다. 로그를 확인하세요.";
+        Log.i("requdstMyLocation()", msg);
+    }
+
+    private class GPSListener implements LocationListener {
+        /**
+         * 위치 정보가 확인될 때 자동 호출되는 메소드
+         */
+        public void onLocationChanged(Location location) {
+            Double latitude = location.getLatitude();
+            Double longitude = location.getLongitude();
+
+            String msg = "Latitude : " + latitude + "\nLongitude:" + longitude;
+            Log.i("GPSListener", msg);
+
+            Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+            showCurrentMap(latitude, longitude);
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+    }
+
+    private void showCurrentMap(Double latitude, Double longitude) {
+        LatLng curPoint = new LatLng(latitude, longitude);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 12.0f));
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(new LatLng(latitude + 0.001, longitude + 0.001));
+        marker.title("은행 지점");
+        marker.snippet("잠실지점 입니다.");
+        marker.draggable(true);
+        marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+
+        map.addMarker(marker);
+    }
+
+    class MySenserListener implements SensorEventListener {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    }
+}
