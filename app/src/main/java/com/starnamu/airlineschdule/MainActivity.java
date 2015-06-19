@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.starnamu.projcet.airlineschedule.R;import com.starnamu.airlineschdule.choiceoption.ChoiceOptionFragment;
+import com.starnamu.airlineschdule.choiceoption.ChoiceOptionFragment;
 import com.starnamu.airlineschdule.choiceoption.OptionFragmentLineLayout;
 import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
@@ -21,6 +21,7 @@ import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
 import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.airlineschdule.fragment.OALDepartureAirLineFragment;
 import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
@@ -71,8 +72,10 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     private void startMetrialView() {
         optionFragmentLineLayout = new OptionFragmentLineLayout(this);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        toolbar.addView(optionFragmentLineLayout);
+//        toolbar.addView(optionFragmentLineLayout);
         setSupportActionBar(toolbar);
+
+
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
         dlDrawer.setDrawerListener(dtToggle);
@@ -98,8 +101,10 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -126,6 +131,8 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     @Override
     public void onListClicked(int choiceTime) {
 
+        int userChoiceTime = choiceTime;
+
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction fragTransaction = fm.beginTransaction();
         int i = pager.getCurrentItem();/*현재 선택된 Pager 위치값 반환*/
@@ -135,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (ArrivalAirlineFragment) fm.findFragmentByTag("arr");
                 fragTransaction.detach(arrivalAirlineFragment);
                 fragTransaction.attach(arrivalAirlineFragment);
-                arrivalAirlineFragment.choiceTime(choiceTime);
+                arrivalAirlineFragment.choiceTime(userChoiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -144,7 +151,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (DepartureAirLineFragment) fm.findFragmentByTag("dep");
                 fragTransaction.detach(departureAirLineFragment);
                 fragTransaction.attach(departureAirLineFragment);
-                departureAirLineFragment.choiceTime(choiceTime);
+                departureAirLineFragment.choiceTime(userChoiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -153,7 +160,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (OALArrivalAirlineFragment) fm.findFragmentByTag("oalarr");
                 fragTransaction.detach(oalArrivalAirlineFragment);
                 fragTransaction.attach(oalArrivalAirlineFragment);
-                oalArrivalAirlineFragment.choiceTime(choiceTime);
+                oalArrivalAirlineFragment.choiceTime(userChoiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -162,7 +169,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (OALDepartureAirLineFragment) fm.findFragmentByTag("oaldep");
                 fragTransaction.detach(oalDepartureAirLineFragment);
                 fragTransaction.attach(oalDepartureAirLineFragment);
-                oalDepartureAirLineFragment.choiceTime(choiceTime);
+                oalDepartureAirLineFragment.choiceTime(userChoiceTime);
                 fragTransaction.commit();
                 break;
         }

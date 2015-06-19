@@ -46,7 +46,7 @@ public class GoogleMapFragment extends Fragment {
 
 
 //        MapsInitializer.initialize(this.getActivity());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.4692, 126.4406957), 7);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.4692, 126.4406), 7);
         map.animateCamera(cameraUpdate);
 
         return v;
@@ -65,7 +65,7 @@ public class GoogleMapFragment extends Fragment {
         mapView.onResume();
         super.onResume();
 
-        CustomGoogleMarker cgm = new CustomGoogleMarker(map);
+        CustomGoogleMarker cgm = new CustomGoogleMarker(map,getActivity());
 
         //내 위치 좌표 깜빡임 시작
         map.setMyLocationEnabled(true);
