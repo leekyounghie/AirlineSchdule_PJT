@@ -11,7 +11,7 @@ public interface CommonConventions {
     String PARRIVALS = "/getPassengerArrivals";
     String PDEPARTURES = "/getPassengerDepartures";
 
-    String[] AIRLINENAME = {"중국동방항공", "사천항공", "싱가폴항공", "에바항공", "중국산동항공", "에어캐나다", "사할린", "델타항공"
+    String[] AIRLINENAME = {"중국동방항공", "사천항공", "싱가포르항공", "에바항공", "중국산동항공", "에어캐나다", "사할린", "델타항공"
             , "제스트항공", "ANA항공 전일본송수", "에어부산", "마카오항공", "블라디보스톡"};
 
     String[] PARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",

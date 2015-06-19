@@ -12,12 +12,8 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.starnamu.airlineschdule.animationaircraft.MakerAircraft;
+import com.starnamu.airlineschdule.GoogleMapAirCraft.CustomGoogleMarker;
 import com.starnamu.projcet.airlineschedule.R;
 
 /**
@@ -28,7 +24,6 @@ public class GoogleMapFragment extends Fragment {
     MapView mapView;
     GoogleMap map;
     LocationManager manager;
-    LatLng latLng;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +44,10 @@ public class GoogleMapFragment extends Fragment {
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
 
-//        MapsInitializer.initialize(this.getActivity());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.4692, 126.4406957), 12);
-        map.animateCamera(cameraUpdate);
 
-        latLng = new LatLng(37.465, 126.445);
+//        MapsInitializer.initialize(this.getActivity());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.4692, 126.4406957), 7);
+        map.animateCamera(cameraUpdate);
 
         return v;
     }
@@ -71,9 +65,7 @@ public class GoogleMapFragment extends Fragment {
         mapView.onResume();
         super.onResume();
 
-        Marker marker = map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_media_play)).position(latLng));
-        MakerAircraft markerAircreaft = new MakerAircraft(marker, latLng);
-        markerAircreaft.start();
+        CustomGoogleMarker cgm = new CustomGoogleMarker(map);
 
         //내 위치 좌표 깜빡임 시작
         map.setMyLocationEnabled(true);
