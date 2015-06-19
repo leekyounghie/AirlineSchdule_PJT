@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by starnamu on 2015-06-15.
+ * 마커를 일정시간 한방향으로 계속 이동시키는 코드
  */
 public class MakerAircraft extends Thread {
 

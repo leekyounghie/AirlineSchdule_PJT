@@ -27,6 +27,9 @@ public class LatLonConversion {
         return dist;
     }*/
 
+    /**
+     * 두지점의 위도와 경도값 거리를 Km로 환산해 준다
+     */
     public double distance(double P1_latitude, double P1_longitude,
                            double P2_latitude, double P2_longitude) {
         if ((P1_latitude == P2_latitude) && (P1_longitude == P2_longitude)) {
@@ -91,8 +94,9 @@ public class LatLonConversion {
         return c54;
     }
 
-
-    //방위각 구하는 부분
+    /**
+     * 두지점의 위도와 경도값으로 두지점간의 방위각을 구한다.
+     */
     public short bearingP1toP2(double P1_latitude, double P1_longitude,
                                double P2_latitude, double P2_longitude) {
         // 현재 위치 : 위도나 경도는 지구 중심을 기반으로 하는 각도이기 때문에
