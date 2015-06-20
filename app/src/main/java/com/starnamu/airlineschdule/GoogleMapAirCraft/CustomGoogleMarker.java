@@ -49,15 +49,16 @@ public class CustomGoogleMarker {
 
     private void CustomAddMarker(LatLng latLng) {
 
-        BitmapDrawable drawable = (BitmapDrawable) mContext.getResources().getDrawable(R.drawable.airplane);
+        BitmapDrawable drawable = (BitmapDrawable) mContext.getResources().getDrawable(R.drawable.airplane_10);
         Bitmap bitmap = drawable.getBitmap();
         final LatLng nowLanLon = latLng;
 
         marker = map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.
-                fromBitmap(getResizedBitmap(bitmap, 40, 40))).position(latLng));
+                fromBitmap(bitmap)).position(latLng));
 
         String MarkerId = marker.getId();
-
+        AnimateMarker airCraftMarker = new AnimateMarker(marker,latLng , 0);
+        airCraftMarker.start();
        /* Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
