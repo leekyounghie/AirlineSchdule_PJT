@@ -2,8 +2,6 @@ package com.starnamu.airlineschdule;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -13,20 +11,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.starnamu.airlineschdule.choiceoption.ChoiceOptionFragment;
-import com.starnamu.airlineschdule.choiceoption.OptionFragmentLineLayout;
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
-import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
-import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
-import com.starnamu.airlineschdule.fragment.OALDepartureAirLineFragment;
 import com.starnamu.airlineschdule.parser.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements CommonConventions,
-        ChoiceOptionFragment.CustonListOnClickListener {
+public class MainActivity extends ActionBarActivity implements CommonConventions {
 
     Toolbar toolbar;
     ViewPager pager;
@@ -37,7 +28,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
-    OptionFragmentLineLayout optionFragmentLineLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +60,8 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     }
 
     private void startMetrialView() {
-        optionFragmentLineLayout = new OptionFragmentLineLayout(this);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
-//        toolbar.addView(optionFragmentLineLayout);
         setSupportActionBar(toolbar);
-
 
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
@@ -101,7 +88,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -126,52 +112,5 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onListClicked(int choiceTime) {
-
-        int userChoiceTime = choiceTime;
-
-        FragmentManager fm = this.getSupportFragmentManager();
-        FragmentTransaction fragTransaction = fm.beginTransaction();
-        int i = pager.getCurrentItem();/*현재 선택된 Pager 위치값 반환*/
-        switch (i) {
-            case 0:
-                ArrivalAirlineFragment arrivalAirlineFragment =
-                        (ArrivalAirlineFragment) fm.findFragmentByTag("arr");
-                fragTransaction.detach(arrivalAirlineFragment);
-                fragTransaction.attach(arrivalAirlineFragment);
-                arrivalAirlineFragment.choiceTime(userChoiceTime);
-                fragTransaction.commit();
-                break;
-
-            case 1:
-                DepartureAirLineFragment departureAirLineFragment =
-                        (DepartureAirLineFragment) fm.findFragmentByTag("dep");
-                fragTransaction.detach(departureAirLineFragment);
-                fragTransaction.attach(departureAirLineFragment);
-                departureAirLineFragment.choiceTime(userChoiceTime);
-                fragTransaction.commit();
-                break;
-
-            case 2:
-                OALArrivalAirlineFragment oalArrivalAirlineFragment =
-                        (OALArrivalAirlineFragment) fm.findFragmentByTag("oalarr");
-                fragTransaction.detach(oalArrivalAirlineFragment);
-                fragTransaction.attach(oalArrivalAirlineFragment);
-                oalArrivalAirlineFragment.choiceTime(userChoiceTime);
-                fragTransaction.commit();
-                break;
-
-            case 3:
-                OALDepartureAirLineFragment oalDepartureAirLineFragment =
-                        (OALDepartureAirLineFragment) fm.findFragmentByTag("oaldep");
-                fragTransaction.detach(oalDepartureAirLineFragment);
-                fragTransaction.attach(oalDepartureAirLineFragment);
-                oalDepartureAirLineFragment.choiceTime(userChoiceTime);
-                fragTransaction.commit();
-                break;
-        }
     }
 }

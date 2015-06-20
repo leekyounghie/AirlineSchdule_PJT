@@ -1,27 +1,28 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".MainActivity">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/tool_bar"
             layout="@layout/tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
+
 
         <com.starnamu.airlineschdule.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ColorPrimary"
-            android:elevation="2dp" />
+            android:elevation="2dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                     android:layout_width="240dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:background="#3F51B5" />
+                    android:background="#3F51B5"/>
             </android.support.v4.widget.DrawerLayout>
 
 
