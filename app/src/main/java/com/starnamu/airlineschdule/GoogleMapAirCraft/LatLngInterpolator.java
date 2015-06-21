@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public interface LatLngInterpolator {
 
-    LatLng airportPosition = new LatLng(37.3713, 126.654);
+    LatLng airportPosition = AirPortPosition.airportPosition;
 
     public LatLng interpolate(float fraction, LatLng finishPosition);
 
