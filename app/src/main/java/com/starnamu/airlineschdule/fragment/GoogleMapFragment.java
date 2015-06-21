@@ -13,7 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
-import com.starnamu.airlineschdule.GoogleMapAirCraft.CustomGoogleMarker;
+import com.starnamu.airlineschdule.googlemapaircraft.CustomGoogleMarker;
 import com.starnamu.projcet.airlineschedule.R;
 
 /**
