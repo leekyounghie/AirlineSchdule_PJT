@@ -39,13 +39,11 @@ public class AnimateMarker extends Thread {
         final long start = SystemClock.uptimeMillis();
         handler.post(new Runnable() {
 
-
             @Override
             public void run() {
                 long elapsed = SystemClock.uptimeMillis() - start;
                 float time = elapsed / durationInMs;
                 float animValue = interpolator.getInterpolation(time);
-
 
                 marker.setPosition(new LatLngInterpolator.Linear().interpolate(animValue,
                         latLng));
