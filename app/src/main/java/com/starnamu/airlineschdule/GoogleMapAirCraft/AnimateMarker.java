@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -15,7 +16,7 @@ public class AnimateMarker extends Thread {
     int sleep;
 
     Handler handler = new Handler();
-    Interpolator interpolator = new BounceInterpolator();
+    Interpolator interpolator = new LinearInterpolator();
     Marker marker;
     LatLng latLng;
     final float durationInMs = 10000;
