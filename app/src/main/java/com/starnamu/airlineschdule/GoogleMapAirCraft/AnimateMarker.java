@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -16,10 +15,10 @@ public class AnimateMarker extends Thread {
     int sleep;
 
     Handler handler = new Handler();
-    Interpolator interpolator = new LinearInterpolator();
+    Interpolator interpolator = new BounceInterpolator();
     Marker marker;
     LatLng latLng;
-    final float durationInMs = 1000;
+    final float durationInMs = 10000;
     int waitTime;
 
     public AnimateMarker(final Marker marker, LatLng latLng, int waitTime) {
@@ -46,17 +45,17 @@ public class AnimateMarker extends Thread {
                 long elapsed = SystemClock.uptimeMillis() - start;
                 float time = elapsed / durationInMs;
                 float animValue = interpolator.getInterpolation(time);
-                LatLng airPlanPosition = new LatLngInterpolator.Linear().interpolate(animValue,
-                        latLng);
 
-                marker.setPosition(airPlanPosition);
+
+                marker.setPosition(new LatLngInterpolator.Linear().interpolate(animValue,
+                        latLng));
                 if (time < 1) {
                     handler.postDelayed(this, 10);
                 }
-                if (airPlanPosition == AirPortPosition.airportPosition) {
-                    marker.remove();
-                }
-
+                /*if (time > 1) {
+                    marker.setPosition(latLng);
+                } */
+                //위치고정
 
             }
         });
