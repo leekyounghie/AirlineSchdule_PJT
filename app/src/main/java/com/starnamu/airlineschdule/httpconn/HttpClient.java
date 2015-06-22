@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class HttpClient {
 
-    // OkHttpClient 객체는 멤버필드에서 final 형태로 한번만 생성해서 newCall 메서드를 통해 재사용한다.
+
     private final OkHttpClient client = new OkHttpClient();
 
     public interface Fail<V, O, E> {
