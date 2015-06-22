@@ -7,29 +7,23 @@ import com.google.android.gms.maps.model.LatLng;
 
 public interface LatLngInterpolator {
 
-    LatLng airportPosition = AirPortPosition.airportPosition;
+    LatLng airportPosition = AirPortPosition.INCHENAIRPORT;
 
     public LatLng interpolate(float fraction, LatLng finishPosition);
 
-    public LatLng Bounce(float fraction, LatLng finishPosition);
 
     public class Linear implements LatLngInterpolator {
         @Override
         public LatLng interpolate(float fraction, LatLng startPosition) {
 
             double latdistance = startPosition.latitude - airportPosition.latitude;
-            double lotdistance = startPosition.longitude - airportPosition.longitude;
+            double lotdistance = startPosition.longitude - airportPosition.longitude; //시작점과 끝점의 거리
 
-            double lat = (airportPosition.latitude + latdistance + (-latdistance * fraction));
-            double lot = (airportPosition.longitude + lotdistance + (-lotdistance * fraction));
+            double lat = (startPosition.latitude - latdistance * fraction);
+            double lot = (startPosition.longitude - lotdistance * fraction); //시작점에서 끝의 사이값을 먼저 더해준다음(사이거리 값이 음수) 그걸 천천히 늘려줌
             return new LatLng(lat, lot);
         }
 
-        @Override
-        public LatLng Bounce(float fraction, LatLng finishPosition) {
-            double lat = (finishPosition.latitude + 0.015 + (-0.015 * fraction));
-            //Log.d("MapActivity", "lat : "+lat+", fraction :"+fraction+", Finish Position :"+finishPosition.latitude);
-            return new LatLng(lat, finishPosition.longitude);
-        }
+
     }
 }
