@@ -56,9 +56,6 @@ public class AnimateMarker extends Thread {
 
                 }
 
-
-
-
                 if (time >= 0.9) { // 전체 이동시간의 90%가 됬을때 비행기를 지움 추후 API 받으면 다른 이동 위치를 물어봐서 지울 예정
 
 
