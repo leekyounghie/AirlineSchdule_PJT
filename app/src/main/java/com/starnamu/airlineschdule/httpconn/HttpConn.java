@@ -1,18 +1,9 @@
 package com.starnamu.airlineschdule.httpconn;
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.starnamu.projcet.airlineschedule.R;
-
-import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +16,7 @@ public class HttpConn {
     String SERVICEKEY = "ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx4u" +
             "3hh24IgLuMAr5LEvByuM62KPv7l8Y4qbNUy0AgE2YtWHw%3D%3D";
 
-    public HttpConn(){
+    public HttpConn() {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -73,6 +64,7 @@ public class HttpConn {
                             }
                             return null;
                         }
+
                     });
         } catch (IOException e) {
             e.printStackTrace();
