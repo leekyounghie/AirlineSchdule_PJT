@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.GoogleMapAirCraft;
+package com.starnamu.airlineschdule.googlemapaircraft;
 
 import android.os.Handler;
 import android.os.SystemClock;

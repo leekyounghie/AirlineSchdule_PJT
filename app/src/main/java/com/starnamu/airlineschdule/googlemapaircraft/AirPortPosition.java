@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.GoogleMapAirCraft;
+package com.starnamu.airlineschdule.googlemapaircraft;
 
 import com.google.android.gms.maps.model.LatLng;
 
