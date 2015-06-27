@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.starnamu.airlineschdule.slidinglayout.SlidingLayoutView;
 import com.starnamu.projcet.airlineschedule.R;
 
 /**
@@ -33,7 +34,7 @@ public class AirlineItemView extends FrameLayout {
     /**
      * 슬라이딩으로 보여지는 페이지 레이아웃
      */
-    Button slidingBtn;
+    LinearLayout slidingLayout;
 
     public AirlineItemView(Context context) {
         super(context);
@@ -45,7 +46,7 @@ public class AirlineItemView extends FrameLayout {
         init(context);
     }
 
-    private void init(Context context) {
+    private void init(final Context context) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.listviewitem, this, true);
@@ -57,10 +58,9 @@ public class AirlineItemView extends FrameLayout {
         textView06 = (TextView) findViewById(R.id.textView06);
         textView07 = (TextView) findViewById(R.id.textView07);
 
-
         // 슬라이딩으로 보여질 Button 객체 참조
-        slidingBtn = (Button) findViewById(R.id.slidingBtn);
-        slidingBtn.setVisibility(View.INVISIBLE);
+        slidingLayout = (LinearLayout) findViewById(R.id.slidingLayout);
+        slidingLayout.setVisibility(View.INVISIBLE);
 
         // 애니메이션 객체 로딩
         translateLeftAnim = AnimationUtils.loadAnimation(context, R.anim.translate_left);
@@ -69,17 +69,34 @@ public class AirlineItemView extends FrameLayout {
         this.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                slidingBtn.setVisibility(View.VISIBLE);
-                slidingBtn.startAnimation(translateLeftAnim);
+                slidingLayout.setVisibility(View.VISIBLE);
+                SlidingLayoutView slidingLayoutView = new SlidingLayoutView(context);
+                slidingLayoutView.setMotherView(textView02);
+                slidingLayout.addView(slidingLayoutView);
+                slidingLayout.startAnimation(translateLeftAnim);
+                isPageOpen = true;
                 return false;
             }
         });
 
-        slidingBtn.setOnClickListener(new OnClickListener() {
+       /* slidingLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                slidingBtn.startAnimation(translateRightAnim);
-                slidingBtn.setVisibility(GONE);
+                slidingLayout.startAnimation(translateRightAnim);
+                slidingLayout.setVisibility(GONE);
+            }
+        });*/
+
+        textView02.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isPageOpen == true) {
+                    slidingLayout.startAnimation(translateRightAnim);
+                    slidingLayout.setVisibility(GONE);
+
+                    isPageOpen = false;
+                }
             }
         });
     }

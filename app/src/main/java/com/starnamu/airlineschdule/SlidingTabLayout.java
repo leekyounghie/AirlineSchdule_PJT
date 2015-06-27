@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.TextView;import com.starnamu.projcet.airlineschedule.R;
+import android.widget.TextView;
+
+import com.starnamu.projcet.airlineschedule.R;
 
 
 public class SlidingTabLayout extends HorizontalScrollView {
@@ -287,4 +289,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
+    public ViewPager getMyViewPager() {
+        return mViewPager;
+    }
 }

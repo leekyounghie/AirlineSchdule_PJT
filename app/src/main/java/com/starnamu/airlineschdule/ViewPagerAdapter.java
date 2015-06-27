@@ -40,6 +40,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     }
 
+
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
@@ -79,6 +80,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             GoogleMapFragment googleMapFragment = new GoogleMapFragment();
             googleMapFragment.setArguments(bundle);
             fm.beginTransaction().add(googleMapFragment, "goolmf");
+
 
             return googleMapFragment;
         }

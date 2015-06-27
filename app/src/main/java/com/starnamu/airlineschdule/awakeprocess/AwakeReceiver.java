@@ -6,7 +6,7 @@ import android.content.Intent;
 
 public class AwakeReceiver extends BroadcastReceiver {
     /**
-     * 기기에 어떠한 이벤트(작업) 발생하면 이를 받고자 하는곳을 알려주는 기능
+     * 기기에 어떠한 이벤트(작업)가 발생하면 이를 받고자 하는곳을 알려주는 기능
      */
 
     public static final String ACTION_START = "com.starnamu.projcet.memorize_card.awakeprocess.ACTION_START";
