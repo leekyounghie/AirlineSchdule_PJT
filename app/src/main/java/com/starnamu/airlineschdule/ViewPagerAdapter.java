@@ -1,6 +1,5 @@
 package com.starnamu.airlineschdule;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +16,6 @@ import com.starnamu.airlineschdule.parser.AirlineItem;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by Edwin on 15/02/2015.
  */
@@ -28,7 +26,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<AirlineItem> items;
     FragmentManager fm;
 
-
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
         super(fm);
@@ -37,7 +34,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.NumbOfTabs = mTitles.length;
         this.items = items;
         this.fm = fm;
-
     }
 
     //This method return the fragment for the every position in the View Pager

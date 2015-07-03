@@ -2,6 +2,8 @@ package com.starnamu.airlineschdule;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -12,12 +14,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
+import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
+import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
+import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.SlideLayoutFragment;
 import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements CommonConventions {
+public class MainActivity extends ActionBarActivity implements CommonConventions, SlideLayoutFragment.CustomOnClickListener {
 
     Toolbar toolbar;
     ViewPager pager;
@@ -78,6 +84,35 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
             }
         });
         tabs.setViewPager(pager);
+    }
+
+    public void fragmentReplace(Fragment fragment) {
+
+
+        final FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+
+        transaction.replace(R.id.pager, fragment);
+        transaction.commit();
+    }
+
+    public void onClicked(int id) {
+
+        switch (id) {
+
+            case R.id.alramBtn:
+                ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
+                fragmentReplace(arrivalAirlineFragment);
+                break;
+            case R.id.mapview:
+                DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
+                fragmentReplace(departureAirLineFragment);
+                break;
+            case R.id.infoBtn:
+                OALArrivalAirlineFragment oalArrivalAirlineFragment = new OALArrivalAirlineFragment();
+                fragmentReplace(oalArrivalAirlineFragment);
+                break;
+        }
     }
 
     @Override

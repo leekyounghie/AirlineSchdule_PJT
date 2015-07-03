@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.GoogleMapAirCraft;
+package com.starnamu.airlineschdule.googlemapaircraft;
 
 import android.content.Context;
 import android.graphics.Bitmap;

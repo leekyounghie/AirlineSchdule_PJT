@@ -11,15 +11,6 @@ import android.util.Log;
 /**
  * Service 안드로이드 Application 컴포넌트 중에 하나이며 사용자와 상호작용 하지 않고,
  * Background(화면뒷단)에서 동작하는 컴포넌트
- * Activity 종료후에도 동작
- * <p/>
- * Service 안드로이드 Application 컴포넌트 중에 하나이며 사용자와 상호작용 하지 않고,
- * Background(화면뒷단)에서 동작하는 컴포넌트
- * Activity 종료후에도 동작
- * <p/>
- * <p/>
- * Service 안드로이드 Application 컴포넌트 중에 하나이며 사용자와 상호작용 하지 않고,
- * Background(화면뒷단)에서 동작하는 컴포넌트
  * Activity 종료후에도 동작하기 위해서 만들어진 컴포넌트(MP3플레이어 기능)
  * Manifests에 <service></service>를 등록한다.
  * Service내부에서는 Thread작업을 해서는 안된다.
@@ -89,6 +80,7 @@ public class AwakeService extends Service {
             /**PendingIntent에 Intent를 추가함으로 해당 Intent Action을 가진 Intent를 호출
              * 매개변수는 Ctrl+method onMouse하면 확인 가능*/
             PendingIntent pi = PendingIntent.getService(this, 0, intentA, 0);
+
 
             /**반복되는 알람을 예약하는 Method
              * setRepeating(기준시간 및 대기모드 지원여부, 알람을 실행할 시각, 실행할 작업)
