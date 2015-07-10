@@ -48,6 +48,8 @@ public class AirLineAdapter extends BaseAdapter {
             view = new AirlineItemView(mContext);
         } else {
             view = (AirlineItemView) convertView;
+            //재활용시 재활용되는 View의 속성도 재활용 됨으로 재활용 되는 View를 초기화 해줄 필요가 있다.
+            view.slidingLayout.setVisibility(View.GONE);
         }
         if (position % 2 == 0) {
             view.setBackgroundColor(Color.argb(255, 250, 255, 255));

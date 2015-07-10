@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 
-import com.starnamu.projcet.airlineschedule.R;import com.starnamu.airlineschdule.comm.CommonConventions;
+import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.parser.AirlineItem;
 import com.starnamu.airlineschdule.parser.AirlineParser;
+import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class Intro_Activity extends ActionBarActivity implements CommonConventio
             items = parser.getArrayList();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("airlinetime",items);
+            bundle.putSerializable("airlinetime", items);
 
             Intent intent = new Intent(Intro_Activity.this, MainActivity.class);
             startActivity(intent);

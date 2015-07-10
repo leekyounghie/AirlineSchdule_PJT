@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.starnamu.projcet.airlineschedule.R;
 
@@ -16,8 +15,7 @@ import com.starnamu.projcet.airlineschedule.R;
  */
 public class SlideLayoutFragment extends Fragment {
 
-    Button alramBtn, mapView, infoBtn;
-
+    View view;
 
     public SlideLayoutFragment() {
     }
@@ -30,15 +28,13 @@ public class SlideLayoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.slidelayoutfragment, container);
-        alramBtn = (Button) view.findViewById(R.id.alramBtn);
-        alramBtn.setOnClickListener(onClickListener);
+        view = inflater.inflate(R.layout.slidelayoutfragment, container);
 
-        mapView = (Button) view.findViewById(R.id.mapViewBtn);
-        mapView.setOnClickListener(onClickListener);
+        view.findViewById(R.id.alramBtn).setOnClickListener(onClickListener);
 
-        infoBtn = (Button) view.findViewById(R.id.infoBtn);
-        infoBtn.setOnClickListener(onClickListener);
+        view.findViewById(R.id.mapViewBtn).setOnClickListener(onClickListener);
+
+        view.findViewById(R.id.infoBtn).setOnClickListener(onClickListener);
 
         return view;
     }

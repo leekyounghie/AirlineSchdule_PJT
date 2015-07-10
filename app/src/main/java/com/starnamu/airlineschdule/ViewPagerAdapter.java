@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.starnamu.airlineschdule.fragment.AlarmFragment;
 import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
 import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
+import com.starnamu.airlineschdule.fragment.FligthInfoFragment;
 import com.starnamu.airlineschdule.fragment.GoogleMapFragment;
 import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.airlineschdule.fragment.OALDepartureAirLineFragment;
@@ -27,9 +29,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     FragmentManager fm;
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
+    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[],
+                            int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
         super(fm);
-
         this.Titles = mTitles;
         this.NumbOfTabs = mTitles.length;
         this.items = items;
@@ -77,7 +79,18 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             fm.beginTransaction().add(googleMapFragment, "goolmf");
 
             return googleMapFragment;
+        } else if (position == 5) {
+            AlarmFragment alarmFragment = new AlarmFragment();
+            fm.beginTransaction().add(alarmFragment, "alarm");
+
+            return alarmFragment;
+        } else if (position == 6) {
+            FligthInfoFragment fligthInfoFragment = new FligthInfoFragment();
+            fm.beginTransaction().add(fligthInfoFragment, "info");
+
+            return fligthInfoFragment;
         }
+
         return null;
     }
 

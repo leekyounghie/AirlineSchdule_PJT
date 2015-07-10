@@ -3,7 +3,6 @@ package com.starnamu.airlineschdule.slidinglayout;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.starnamu.projcet.airlineschedule.R;
@@ -14,7 +13,6 @@ import com.starnamu.projcet.airlineschedule.R;
 public class SlidingLayoutView extends LinearLayout {
 
     Context nContext;
-
 
     public SlidingLayoutView(Context context) {
         super(context);
@@ -30,6 +28,8 @@ public class SlidingLayoutView extends LinearLayout {
         this.nContext = context;
         this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.slidinglayoutview, this, true);
+        inflater.inflate(R.layout.slidinglayoutview, this, true);
     }
+
+
 }

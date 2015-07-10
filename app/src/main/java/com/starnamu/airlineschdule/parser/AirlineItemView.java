@@ -19,7 +19,7 @@ import com.starnamu.projcet.airlineschedule.R;
 public class AirlineItemView extends FrameLayout {
 
     TextView textView02, textView03, textView04, textView05, textView06, textView07;
-
+    Context mContext;
     /**
      * 페이지가 열려 있는지 알기 위한 플래그
      */
@@ -46,45 +46,43 @@ public class AirlineItemView extends FrameLayout {
         init(context);
     }
 
-    private void init(final Context context) {
+    private void init(Context context) {
+
+        this.mContext = context;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.listviewitem, this, true);
+        View view = inflater.inflate(R.layout.listviewitem, this, true);
 
-        textView02 = (TextView) findViewById(R.id.textView02);
-        textView03 = (TextView) findViewById(R.id.textView03);
-        textView04 = (TextView) findViewById(R.id.textView04);
-        textView05 = (TextView) findViewById(R.id.textView05);
-        textView06 = (TextView) findViewById(R.id.textView06);
-        textView07 = (TextView) findViewById(R.id.textView07);
+        textView02 = (TextView) view.findViewById(R.id.textView02);
+        textView03 = (TextView) view.findViewById(R.id.textView03);
+        textView04 = (TextView) view.findViewById(R.id.textView04);
+        textView05 = (TextView) view.findViewById(R.id.textView05);
+        textView06 = (TextView) view.findViewById(R.id.textView06);
+        textView07 = (TextView) view.findViewById(R.id.textView07);
 
         // 슬라이딩으로 보여질 Button 객체 참조
-        slidingLayout = (LinearLayout) findViewById(R.id.slidingLayout);
-        slidingLayout.setVisibility(View.INVISIBLE);
+        slidingLayout = (LinearLayout) view.findViewById(R.id.slidingLayout);
+        slidingLayout.setVisibility(View.GONE);
 
         // 애니메이션 객체 로딩
         translateLeftAnim = AnimationUtils.loadAnimation(context, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(context, R.anim.translate_right);
 
+        onControlButton();
+    }
+
+    private void onControlButton() {
         this.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 slidingLayout.setVisibility(View.VISIBLE);
-                SlidingLayoutView slidingLayoutView = new SlidingLayoutView(context);
+                SlidingLayoutView slidingLayoutView = new SlidingLayoutView(mContext);
                 slidingLayout.addView(slidingLayoutView);
                 slidingLayout.startAnimation(translateLeftAnim);
                 isPageOpen = true;
                 return false;
             }
         });
-
-       /* slidingLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slidingLayout.startAnimation(translateRightAnim);
-                slidingLayout.setVisibility(GONE);
-            }
-        });*/
 
         textView02.setOnClickListener(new OnClickListener() {
             @Override
@@ -93,7 +91,6 @@ public class AirlineItemView extends FrameLayout {
                 if (isPageOpen == true) {
                     slidingLayout.startAnimation(translateRightAnim);
                     slidingLayout.setVisibility(GONE);
-
                     isPageOpen = false;
                 }
             }

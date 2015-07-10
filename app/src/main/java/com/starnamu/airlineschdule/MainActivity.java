@@ -2,8 +2,6 @@ package com.starnamu.airlineschdule;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -14,9 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
-import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
-import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
+import com.starnamu.airlineschdule.database.MyDataBase;
 import com.starnamu.airlineschdule.parser.AirlineItem;
 import com.starnamu.airlineschdule.slidinglayout.SlideLayoutFragment;
 import com.starnamu.projcet.airlineschedule.R;
@@ -29,11 +25,12 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "지도"};
+    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "지도", "알람", "정보"};
     int Numboftabs = Titles.length;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
+    MyDataBase myDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +43,10 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        /*DB컨트롤이 필요할경우 myDatabase instance를 사용하라!!*/
+        myDataBase = new MyDataBase(this);
+        myDataBase.insertData(items);
+        myDataBase.selectAll();
     }
 
     private void stateUrlConnation() throws InterruptedException {
@@ -61,6 +62,8 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                 state = false;
                 Thread.sleep(1000);
                 Log.i("from Intro_Activity", "Not Null");
+
+
             }
         }
     }
@@ -72,8 +75,8 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
         dlDrawer.setDrawerListener(dtToggle);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
         pager = (ViewPager) findViewById(R.id.pager);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
         pager.setAdapter(adapter);
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
@@ -86,31 +89,20 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         tabs.setViewPager(pager);
     }
 
-    public void fragmentReplace(Fragment fragment) {
-
-
-        final FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
-
-        transaction.replace(R.id.pager, fragment);
-        transaction.commit();
-    }
-
     public void onClicked(int id) {
 
         switch (id) {
-
             case R.id.alramBtn:
-                ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
-                fragmentReplace(arrivalAirlineFragment);
+                pager.setCurrentItem(5);
                 break;
-            case R.id.mapview:
-                DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
-                fragmentReplace(departureAirLineFragment);
+
+            case R.id.mapViewBtn:
+                Log.i("MainActivity", "mapViewBtn");
+                pager.setCurrentItem(4);
                 break;
+
             case R.id.infoBtn:
-                OALArrivalAirlineFragment oalArrivalAirlineFragment = new OALArrivalAirlineFragment();
-                fragmentReplace(oalArrivalAirlineFragment);
+                pager.setCurrentItem(6);
                 break;
         }
     }
