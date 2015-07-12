@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.parser.AirlineItem;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +24,7 @@ public class MyDataBase implements CommonConventions {
     // DB관련 상수 선언
     private static final String dbName = "AirlineSchdule.db";
     private static final String tableName = "SchduleTable";
+    private static final String AlarmTableName = "AlarmTableName";
     public static final int dbVersion = 1;
 
     ArrayList<AirlineItem> items;
@@ -57,12 +59,13 @@ public class MyDataBase implements CommonConventions {
             // db.execSQL(dropSql);
 
             onCreateSchduleDataTable(db);
+//            onCreateAlarmDataTable(db);
 
             Toast.makeText(mContext, "DB is opened", Toast.LENGTH_LONG).show();
         }
 
         private void onCreateSchduleDataTable(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE if not exists " + tableName + "("
+            db.execSQL("CREATE TABLE " + tableName + "("
                     + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "airline TEXT, "
                     + "airport TEXT, "
@@ -72,6 +75,15 @@ public class MyDataBase implements CommonConventions {
                     + "estimatedDateTime TEXT, "
                     + "chkinrange TEXT, "
                     + "gatenumber TEXT, "
+                    + "remark TEXT, "
+                    + "carousel TEXT, "
+                    + "ADStat TEXT"
+                    + ")");
+        }
+
+        private void onCreateAlarmDataTable(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE " + AlarmTableName + "("
+                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "remark TEXT, "
                     + "carousel TEXT, "
                     + "ADStat TEXT"
@@ -109,6 +121,7 @@ public class MyDataBase implements CommonConventions {
             values.put("ADStat", item.getStriItem(10));
 
             db.insert(tableName, null, values);
+
 //            }
         }
     }
@@ -142,6 +155,13 @@ public class MyDataBase implements CommonConventions {
     // 데이터 전체 삭제
     private void allRemoveData() {
         db.delete(tableName, null, null);
+    }
+
+    public void myDatabaseDelete() {
+        String dbname = "AirlineSchdule.db";
+        File dbpath = mContext.getDatabasePath(dbname);
+        Log.i("MYDatabase", dbpath.toString());
+        mContext.deleteDatabase(dbname);
     }
 
     // 데이터 검색

@@ -13,11 +13,11 @@ public class DataBaseControlService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        onCreateDatabase();
     }
 
-    private void onCreateDatabase() {
-
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
