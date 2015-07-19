@@ -4,9 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.parser.AirlineItem;
@@ -22,12 +20,12 @@ import java.util.ArrayList;
 public class MyDataBase implements CommonConventions {
 
     // DB관련 상수 선언
-    private static final String dbName = "AirlineSchdule.db";
-    private static final String tableName = "SchduleTable";
+    private static final String SchduleDbName = "AirlineSchdule.db";
+    private static final String SchduleTableName = "SchduleTable";
     private static final String AlarmTableName = "AlarmTableName";
     public static final int dbVersion = 1;
 
-    ArrayList<AirlineItem> items;
+    ArrayList<AirlineItem> SchduleItems;
 
     // DB관련 객체 선언
     private OpenHelper opener; // DB opener
@@ -39,68 +37,15 @@ public class MyDataBase implements CommonConventions {
     // 생성자
     public MyDataBase(Context context) {
         this.mContext = context;
-        this.opener = new OpenHelper(context, dbName, null, dbVersion);
+        this.opener = new OpenHelper(context, SchduleDbName, null, dbVersion);
         db = opener.getWritableDatabase();
-    }
-
-    // Opener of DB and Table
-    private class OpenHelper extends SQLiteOpenHelper {
-
-        public OpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
-                          int version) {
-            super(context, name, null, version);
-            // TODO Auto-generated constructor stub
-        }
-
-        // 생성된 DB가 없을 경우에 한번만 호출됨
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            // String dropSql = "drop table if exists " + tableName;
-            // db.execSQL(dropSql);
-
-            onCreateSchduleDataTable(db);
-//            onCreateAlarmDataTable(db);
-
-            Toast.makeText(mContext, "DB is opened", Toast.LENGTH_LONG).show();
-        }
-
-        private void onCreateSchduleDataTable(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE " + tableName + "("
-                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "airline TEXT, "
-                    + "airport TEXT, "
-                    + "airportCode TEXT, "
-                    + "flightId TEXT, "
-                    + "scheduleDateTime TEXT, "
-                    + "estimatedDateTime TEXT, "
-                    + "chkinrange TEXT, "
-                    + "gatenumber TEXT, "
-                    + "remark TEXT, "
-                    + "carousel TEXT, "
-                    + "ADStat TEXT"
-                    + ")");
-        }
-
-        private void onCreateAlarmDataTable(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE " + AlarmTableName + "("
-                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "remark TEXT, "
-                    + "carousel TEXT, "
-                    + "ADStat TEXT"
-                    + ")");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-            // TODO Auto-generated method stub
-        }
     }
 
     // 데이터 추가
     public void insertData(ArrayList<AirlineItem> items) {
-        allRemoveData();
+        allRemoveData(SchduleTableName);
 
-        this.items = items;
+        this.SchduleItems = items;
         SQLiteDatabase db = opener.getWritableDatabase();
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
@@ -120,7 +65,7 @@ public class MyDataBase implements CommonConventions {
             values.put("carousel", item.getStriItem(9));
             values.put("ADStat", item.getStriItem(10));
 
-            db.insert(tableName, null, values);
+            db.insert(SchduleTableName, null, values);
 
 //            }
         }
@@ -129,7 +74,7 @@ public class MyDataBase implements CommonConventions {
     // 데이터 갱신
 
     public void updateData(AirlineItem item, int index) {
-        String sql = "update " + tableName
+        String sql = "update " + SchduleTableName
                 + " set airline = '" + item.getStriItem(0)
                 + "', airport = " + item.getStriItem(1)
                 + "', airportCode = " + item.getStriItem(2)
@@ -148,25 +93,24 @@ public class MyDataBase implements CommonConventions {
 
     // 데이터 삭제
     public void removeData(int index) {
-        String sql = "delete from " + tableName + " where id = " + index + ";";
+        String sql = "delete from " + AlarmTableName + " where id = " + index + ";";
         db.execSQL(sql);
     }
 
     // 데이터 전체 삭제
-    private void allRemoveData() {
+    private void allRemoveData(String tableName) {
         db.delete(tableName, null, null);
     }
 
     public void myDatabaseDelete() {
-        String dbname = "AirlineSchdule.db";
-        File dbpath = mContext.getDatabasePath(dbname);
+        File dbpath = mContext.getDatabasePath(SchduleDbName);
         Log.i("MYDatabase", dbpath.toString());
-        mContext.deleteDatabase(dbname);
+        mContext.deleteDatabase(SchduleDbName);
     }
 
     // 데이터 검색
     public AirlineItem selectData(int index) {
-        String sql = "select * from " + tableName + " where id = " + index
+        String sql = "select * from " + SchduleTableName + " where id = " + index
                 + ";";
         Cursor result = db.rawQuery(sql, null);
         AirlineItem item;
@@ -188,25 +132,34 @@ public class MyDataBase implements CommonConventions {
     }
 
     // 데이터 전체 검색
-    public ArrayList<AirlineItem> selectAll() {
-
+    public ArrayList<AirlineItem> selectAll(String tableName) {
         String sql = "select * from " + tableName + ";";
         Cursor results = db.rawQuery(sql, null);
 
+        if (tableName.equals(SchduleTableName)) {
+            SchduleItems = selectSchduleTable(results);
+        } else {
+
+        }
+        return selectSchduleTable(results);
+    }
+
+    private ArrayList<AirlineItem> selectSchduleTable(Cursor results) {
         results.moveToFirst();
-        items = new ArrayList<AirlineItem>();
+        SchduleItems = new ArrayList<AirlineItem>();
         String[] str = new String[PARSERITEMGROUP.length];
         while (!results.isAfterLast()) {
             for (int i = 0; i < str.length; i++) {
                 str[i] = results.getString(i);
             }
             AirlineItem item = new AirlineItem(str);
-            items.add(item);
+            SchduleItems.add(item);
             results.moveToNext();
         }
-        printLog(items);
+        printLog(SchduleItems);
         results.close();
-        return items;
+
+        return SchduleItems;
     }
 
     private void printLog(ArrayList<AirlineItem> items) {

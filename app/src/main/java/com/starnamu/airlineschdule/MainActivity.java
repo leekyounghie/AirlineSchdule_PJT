@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         /*DB컨트롤이 필요할경우 myDatabase instance를 사용하라!!*/
         myDataBase = new MyDataBase(this);
         myDataBase.insertData(items);
-        myDataBase.selectAll();
+//        myDataBase.selectAll();
     }
 
     private void stateUrlConnation() throws InterruptedException {
