@@ -1,8 +1,8 @@
-package com.starnamu.airlineschdule.database;
+package com.starnamu.airlineschdule.database_old;
 
 import android.content.Context;
 
-import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import java.util.ArrayList;
 

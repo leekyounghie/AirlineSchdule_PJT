@@ -17,10 +17,9 @@ public interface CommonConventions {
     String[] PARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",
             "estimatedDateTime", "chkinrange", "gatenumber", "remark", "carousel", "ADStat"};
 
-    String[] ARRIVALPARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",
-            "estimatedDateTime", "chkinrange", "gatenumber", "remark", "carousel"};
-
-    /*"ADstate",*/
-
     String SaveSettingFileName = "/mnt/sdcard/setting.txt";
+
+    String AlarmTableName = "AlarmTableName";
+    String SchduleDbName = "AlarmDB.db";
+    int dbVersion = 1;
 }

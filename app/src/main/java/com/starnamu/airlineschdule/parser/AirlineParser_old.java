@@ -1,5 +1,6 @@
 package com.starnamu.airlineschdule.parser;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
@@ -19,17 +20,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 
-public class AirlineParser implements CommonConventions {
+public class AirlineParser_old implements CommonConventions {
 
     Element[] element;
     String[] itemStr;
     ArrayList<AirlineItem> TempList;
     ArrayList<AirlineItem> itemLists;
+    String DepartureAirlineRequest;
+    String ArrivalAirlineRequest;
     String Url;
     String ADstate;
     Handler handler;
+    Context mContext;
 
-    public AirlineParser() {
+    public AirlineParser_old(Context context, String UrlD, String UrlA) {
+
+        this.mContext = context;
+        this.DepartureAirlineRequest = UrlD;
+        this.ArrivalAirlineRequest = UrlA;
 
         this.element = new Element[PARSERITEMGROUP.length];
         this.itemStr = new String[PARSERITEMGROUP.length];
@@ -45,15 +53,22 @@ public class AirlineParser implements CommonConventions {
         }
     }
 
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    });
+
     class ParserThread extends Thread {
         int i = 0;
 
         /*Thread로 URL 연결*/
         public void run() {
-            Url = URLHADE + PDEPARTURES + SERVICEKEY;
+            Url = URLHADE + DepartureAirlineRequest + SERVICEKEY;
             DAurl(Url, "D");
 
-            Url = URLHADE + PARRIVALS + SERVICEKEY;
+            Url = URLHADE + ArrivalAirlineRequest + SERVICEKEY;
             DAurl(Url, "A");
         }
 

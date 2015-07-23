@@ -4,16 +4,18 @@ import android.os.StrictMode;
 
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.starnamu.airlineschdule.comm.CommonConventions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class HttpConn {
+public class HttpConn implements CommonConventions {
 
-    String URLHADE = "http://openapi.airport.kr/openapi/service/StatusOfPassengerFlights/getPassengerArrivals";
-    String SERVICEKEY = "ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx4u" +
+    String URLHADE = "http://openapi.airport.kr/openapi/service/StatusOfPassengerFlights";
+    String URLAIRCRAFT = "/getPassengerDepartures";
+    String SERVICEKEY = "?ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx4u" +
             "3hh24IgLuMAr5LEvByuM62KPv7l8Y4qbNUy0AgE2YtWHw%3D%3D";
 
     public HttpConn() {
@@ -23,11 +25,14 @@ public class HttpConn {
 
         String url = URLHADE;
         StringBuilder sb = new StringBuilder();
-        String params = sb.append(SERVICEKEY).toString();
+        sb.append(URLAIRCRAFT);
+        sb.append(SERVICEKEY);
+        String params = sb.toString();
 
         HttpClient hc = new HttpClient();
         try {
-            hc.get(url, params, new HttpClient.Fail<Void, Request, IOException>() {
+            hc.get(url, params,
+                    new HttpClient.Fail<Void, Request, IOException>() {
                         @Override
                         public Void call(Request request, IOException e) throws Exception {
                             System.out.println("Failed!");
@@ -35,7 +40,6 @@ public class HttpConn {
                         }
                     },
                     new HttpClient.Success<Void, Response>() {
-                        StringBuilder builder = new StringBuilder();
 
                         @Override
                         public Void call(Response response) throws Exception {
@@ -44,17 +48,6 @@ public class HttpConn {
                                 InputStreamReader ISR = new InputStreamReader(is);
                                 BufferedReader BR = new BufferedReader(ISR);
 
-                                String line = null;
-                                while (true) {
-                                    line = BR.readLine();
-                                    if (line == null) {
-                                        break;
-                                    }
-
-                                    builder.append(line + "\n");
-                                }
-
-                                String output = builder.toString();
 
                                 is.close();
                                 ISR.close();
@@ -64,7 +57,6 @@ public class HttpConn {
                             }
                             return null;
                         }
-
                     });
         } catch (IOException e) {
             e.printStackTrace();

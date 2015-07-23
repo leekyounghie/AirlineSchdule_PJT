@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.parser;
+package com.starnamu.airlineschdule.slidinglayout;
 
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
@@ -22,7 +22,6 @@ public class AirlineItem implements CommonConventions, Serializable {
             }
         }
     }
-
 
     public String getStriItem(int index) {
         return StrItem[index];

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_place_a"
     android:layout_width="match_parent"
     android:layout_height="60dp">
 
@@ -105,12 +106,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <include
         android:id="@+id/slidingLayout"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:background="#ffffb434"
-        android:text="slideBtn" />
+        layout="@layout/slidelayout" />
+
 </FrameLayout>

@@ -11,8 +11,8 @@ import android.widget.ListView;
 
 import com.starnamu.projcet.airlineschedule.R;
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.parser.AirLineAdapter;
-import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.AirLineAdapter;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.database_1;
+package com.starnamu.airlineschdule.database_old;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,23 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class OpenHelper extends SQLiteOpenHelper {
 
-    private static OpenHelper instance;
 
-    private static final String SchduleDbName = "AirlineSchdule.db";
+    String dbName = null;
     private static final String tableName = "SchduleTable";
     private static final String AlarmTableName = "AlarmTableName";
-    private static final int dbVersion = 1;
+    int dbVersion;
+    // Opener of DB and Table
 
-    private OpenHelper(Context context) {
-        super(context, SchduleDbName, null, dbVersion);
-    }
+    public OpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
+                      int version) {
+        super(context, name, null, version);
 
-    public static OpenHelper getNewInstance(Context context) {
-
-        if (instance == null) {
-            instance = new OpenHelper(context);
-        }
-        return instance;
+        this.dbName = name;
+        this.dbVersion = version;
+        // TODO Auto-generated constructor stub
     }
 
     // 생성된 DB가 없을 경우에 한번만 호출됨
@@ -33,8 +30,11 @@ public class OpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // String dropSql = "drop table if exists " + tableName;
         // db.execSQL(dropSql);
+
         onCreateSchduleDataTable(db);
         onCreateAlarmDataTable(db);
+//
+//        Toast.makeText(mContext, "DB is opened", Toast.LENGTH_LONG).show();
     }
 
     private void onCreateSchduleDataTable(SQLiteDatabase db) {
@@ -57,17 +57,8 @@ public class OpenHelper extends SQLiteOpenHelper {
     private void onCreateAlarmDataTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + AlarmTableName + "("
                 + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "airline TEXT, "
-                + "airport TEXT, "
-                + "airportCode TEXT, "
                 + "flightId TEXT, "
-                + "scheduleDateTime TEXT, "
                 + "estimatedDateTime TEXT, "
-                + "chkinrange TEXT, "
-                + "gatenumber TEXT, "
-                + "remark TEXT, "
-                + "carousel TEXT, "
-                + "ADStat TEXT"
                 + ")");
     }
 

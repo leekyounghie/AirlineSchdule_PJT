@@ -1,13 +1,14 @@
-package com.starnamu.airlineschdule.database_1;
+package com.starnamu.airlineschdule.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,46 +16,50 @@ import java.util.ArrayList;
 /**
  * Created by starnamu on 2015-07-20.
  */
-public class AlarmDBControll implements CommonConventions {
+public class SchduldDBControll implements CommonConventions {
 
     // DB관련 상수 선언
     private String SchduleDbName = "AirlineSchdule.db";
-    private String AlarmTableName = "AlarmTableName";
+    private String SchduleTableName = "SchduleTable";
 
-    ArrayList<AirlineItem> AlarmItems;
-
-    // DB관련 객체 선언
-    private final OpenHelper opener; // DB opener
-
-    // 부가적인 객체들
+    ArrayList<AirlineItem> SchduleItems;
+    private final SchdulOpenHelper opener; // DB opener
     private Context mContext;
 
     // 생성자
-    public AlarmDBControll(Context context, ArrayList<AirlineItem> items) {
+    public SchduldDBControll(Context context, ArrayList<AirlineItem> items) {
         this.mContext = context;
-        this.opener = OpenHelper.getNewInstance(context);
-        this.AlarmItems = items;
+        this.opener = SchdulOpenHelper.getNewInstance(context);
+        this.SchduleItems = items;
 
         init();
     }
 
     private void init() {
-        //테이블의 모든 Data를 삭제한다.
-        allRemoveData(AlarmTableName);
-        //테이블에 새로운 Data를 삽입한다.
-        insertData();
+        thread.start();
     }
+
+    /*테이블에 새로운 Data를 삽입한다.*/
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            /*테이블의 모든 Data를 삭제한다.*/
+            allRemoveData(SchduleTableName);
+             /*테이블에 새로운 Data를 삽입한다.*/
+            insertData();
+        }
+    });
 
     // 데이터 추가
     public void insertData() {
         SQLiteDatabase db = opener.getWritableDatabase();
         ContentValues values = new ContentValues();
-        for (int i = 0; i < AlarmItems.size(); i++) {
-            AirlineItem item = AlarmItems.get(i);
+        for (int i = 0; i < SchduleItems.size(); i++) {
+            AirlineItem item = SchduleItems.get(i);
             for (int j = 0; j < PARSERITEMGROUP.length; j++) {
                 values.put(PARSERITEMGROUP[j], item.getStriItem(j));
             }
-            db.insert(AlarmTableName, null, values);
+            db.insert(SchduleTableName, null, values);
         }
         db.close();
     }
@@ -73,77 +78,50 @@ public class AlarmDBControll implements CommonConventions {
         mContext.deleteDatabase(SchduleDbName);
     }
 
-    // 데이터 검색
-    public AirlineItem selectData(String Flight) {
-
-        SQLiteDatabase db = opener.getReadableDatabase();
-        String sql = "select * from " + AlarmTableName + " where flightId = " + Flight
-                + ";";
-        Cursor result = db.rawQuery(sql, null);
-        AirlineItem item;
-        String[] str = new String[PARSERITEMGROUP.length];
-
-        // result(Cursor 객체)가 비어 있으면 false 리턴
-        if (result.moveToFirst()) {
-
-//            java foreach
-            for (int i = 0; i < str.length; i++) {
-                str[i] = result.getString(i);
-            }
-            item = new AirlineItem(str);
-            result.close();
-            db.close();
-            return item;
-        }
-        Log.e("AlarmDbControll", "selectData() Errer");
-        result.close();
-        return null;
-    }
-
     // 데이터 전체 검색
     public ArrayList<AirlineItem> selectAll(String tableName) {
-
         SQLiteDatabase db = opener.getReadableDatabase();
         String sql = "select * from " + tableName + ";";
         Cursor results = db.rawQuery(sql, null);
 
-        if (tableName.equals(AlarmTableName)) {
-            AlarmItems = selectSchduleTable(results);
+        if (tableName.equals(SchduleTableName)) {
+            SchduleItems = selectSchduleTable(results);
         } else {
             Log.e("AlarmDbControll", "selectAll() Errer");
             db.close();
             return null;
         }
         db.close();
-        return AlarmItems;
+        return SchduleItems;
     }
 
     private ArrayList<AirlineItem> selectSchduleTable(Cursor results) {
         results.moveToFirst();
-        AlarmItems = new ArrayList<AirlineItem>();
+        SchduleItems = new ArrayList<>();
         String[] str = new String[PARSERITEMGROUP.length];
         while (!results.isAfterLast()) {
             for (int i = 0; i < str.length; i++) {
                 str[i] = results.getString(i);
             }
             AirlineItem item = new AirlineItem(str);
-            AlarmItems.add(item);
+            SchduleItems.add(item);
             results.moveToNext();
         }
-        printLog(AlarmItems);
+
+        Toast.makeText(mContext, "SchduleDBControll의 DB가 저장 되었습니다", Toast.LENGTH_LONG).show();
+
+       /* DB확인용 Method
+        printLog(SchduleItems);*/
         results.close();
-        return AlarmItems;
+        return SchduleItems;
     }
 
     private void printLog(ArrayList<AirlineItem> items) {
-
         int j = items.size();
         int k = j / 10;
-
         for (int i = 0; i < k; i++) {
             AirlineItem item = items.get(i);
             String str = item.getStriItem(1);
-
             Log.i("MyDataBase.java", str);
         }
     }
