@@ -18,13 +18,7 @@ public class DataBaseControlService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //서비스를 설정하다 끝났음
-        //##################################################
-        //##################################################
-        //##################################################
-        //##################################################
-        //##################################################
-        //##################################################
+
         AlarmDBControll alarmDBControll = new AlarmDBControll(getApplicationContext(), null);
         SchduldDBControll schduldDBControll = new SchduldDBControll(getApplicationContext(), null);
 
