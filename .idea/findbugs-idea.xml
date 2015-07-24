@@ -13,7 +13,7 @@
     <option name="_basePreferences">
       <map>
         <entry key="property.analysisEffortLevel" value="default" />
-        <entry key="property.analyzeAfterAutoMake" value="false" />
+        <entry key="property.analyzeAfterAutoMake" value="true" />
         <entry key="property.analyzeAfterCompile" value="false" />
         <entry key="property.annotationGutterIconEnabled" value="true" />
         <entry key="property.annotationSuppressWarningsClass" value="edu.umd.cs.findbugs.annotations.SuppressFBWarnings" />
@@ -24,7 +24,7 @@
         <entry key="property.exportCreateArchiveDir" value="false" />
         <entry key="property.exportOpenBrowser" value="true" />
         <entry key="property.minPriorityToReport" value="Medium" />
-        <entry key="property.runAnalysisInBackground" value="false" />
+        <entry key="property.runAnalysisInBackground" value="true" />
         <entry key="property.showHiddenDetectors" value="false" />
         <entry key="property.toolWindowToFront" value="true" />
       </map>

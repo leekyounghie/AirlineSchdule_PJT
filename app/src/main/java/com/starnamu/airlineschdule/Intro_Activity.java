@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 
-import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.parser.AirlineItem;
 import com.starnamu.airlineschdule.parser.AirlineParser;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
-public class Intro_Activity extends ActionBarActivity implements CommonConventions {
+public class Intro_Activity extends ActionBarActivity {
 
     // intro 화면에서 사용할 핸들러를 인스턴트를 생성한다.
     Handler handler_intro;
@@ -28,7 +27,10 @@ public class Intro_Activity extends ActionBarActivity implements CommonConventio
 
         // 핸들러를 실질적으로 정의하고, 핸들러를 시작하는 지연시간을 설정한다.
         handler_intro = new Handler();
-        handler_intro.postDelayed(run_intro, 3000);
+        handler_intro.postDelayed(run_intro, 500);
+
+       /* parser = new AirlineParser(getApplicationContext(), PDEPARTURES, PARRIVALS);
+        items = parser.getArrayList();*/
     }
 
     /*
@@ -38,7 +40,7 @@ public class Intro_Activity extends ActionBarActivity implements CommonConventio
      */
     Runnable run_intro = new Runnable() {
         public void run() {
-            parser = new AirlineParser(PDEPARTURES, PARRIVALS);
+            parser = new AirlineParser();
             items = parser.getArrayList();
 
             Bundle bundle = new Bundle();

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,19 +21,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class AirlineParser implements CommonConventions {
 
-    Element[] element = new Element[PARSERITEMGROUP.length];
-    String[] itemStr = new String[PARSERITEMGROUP.length];
+    Element[] element;
+    String[] itemStr;
     ArrayList<AirlineItem> TempList;
     ArrayList<AirlineItem> itemLists;
-    String DepartureAirlineRequest;
-    String ArrivalAirlineRequest;
-    Handler handler;
     String Url;
     String ADstate;
+    Handler handler;
 
-    public AirlineParser(String UrlD, String UrlA) {
-        this.DepartureAirlineRequest = UrlD;
-        this.ArrivalAirlineRequest = UrlA;
+    public AirlineParser() {
+
+        this.element = new Element[PARSERITEMGROUP.length];
+        this.itemStr = new String[PARSERITEMGROUP.length];
 
         handler = new Handler();
         TempList = new ArrayList<>();
@@ -50,10 +50,10 @@ public class AirlineParser implements CommonConventions {
 
         /*Thread로 URL 연결*/
         public void run() {
-            Url = URLHADE + DepartureAirlineRequest + SERVICEKEY;
+            Url = URLHADE + PDEPARTURES + SERVICEKEY;
             DAurl(Url, "D");
 
-            Url = URLHADE + ArrivalAirlineRequest + SERVICEKEY;
+            Url = URLHADE + PARRIVALS + SERVICEKEY;
             DAurl(Url, "A");
         }
 
@@ -74,15 +74,14 @@ public class AirlineParser implements CommonConventions {
 
     /*외부로 부터이 요청에 ArrayList 반환 */
     public ArrayList<AirlineItem> getArrayList() {
-        return itemLists;
+        return this.itemLists;
     }
 
     private void airportparser(InputStream inStream) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-
         Document document = builder.parse(inStream);
-        itemLists = parserDocument(document);
+        this.itemLists = parserDocument(document);
     }
 
     private ArrayList<AirlineItem> parserDocument(Document document) {
@@ -98,7 +97,6 @@ public class AirlineParser implements CommonConventions {
                 }
             }
         }
-
         return TempList;
     }
 

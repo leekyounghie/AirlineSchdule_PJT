@@ -14,7 +14,7 @@ import com.starnamu.airlineschdule.fragment.FligthInfoFragment;
 import com.starnamu.airlineschdule.fragment.GoogleMapFragment;
 import com.starnamu.airlineschdule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.airlineschdule.fragment.OALDepartureAirLineFragment;
-import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
         Bundle bundle = new Bundle();
         bundle.putSerializable("items", items);
 
@@ -50,47 +49,45 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             arrivalAirlineFragment.setArguments(bundle);
             fm.beginTransaction().add(arrivalAirlineFragment, "arr");
             Log.i("Arr", "Strar");
-
             return arrivalAirlineFragment;
+
         } else if (position == 1) {            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
             departureAirLineFragment.setArguments(bundle);
             fm.beginTransaction().add(departureAirLineFragment, "dep");
             Log.i("dep", "Strar");
-
             return departureAirLineFragment;
+
         } else if (position == 2) {
             OALArrivalAirlineFragment oalArrivalAirlineFragment = new OALArrivalAirlineFragment();
             oalArrivalAirlineFragment.setArguments(bundle);
             fm.beginTransaction().add(oalArrivalAirlineFragment, "oalarr");
             Log.i("oalarr", "Strar");
-
             return oalArrivalAirlineFragment;
+
         } else if (position == 3) {
             OALDepartureAirLineFragment oalDepartureAirLineFragment = new OALDepartureAirLineFragment();
             oalDepartureAirLineFragment.setArguments(bundle);
             fm.beginTransaction().add(oalDepartureAirLineFragment, "oaldep");
             Log.i("oaldep", "Strar");
-
             return oalDepartureAirLineFragment;
+
         } else if (position == 4) {
+            AlarmFragment alarmFragment = new AlarmFragment();
+            fm.beginTransaction().add(alarmFragment, "alarm");
+            return alarmFragment;
+
+        } else if (position == 5) {
+            FligthInfoFragment fligthInfoFragment = new FligthInfoFragment();
+            fm.beginTransaction().add(fligthInfoFragment, "info");
+            return fligthInfoFragment;
+
+        } else if (position == 6) {
             GoogleMapFragment googleMapFragment = new GoogleMapFragment();
             googleMapFragment.setArguments(bundle);
             fm.beginTransaction().add(googleMapFragment, "goolmf");
-
             return googleMapFragment;
-        } else if (position == 5) {
-            AlarmFragment alarmFragment = new AlarmFragment();
-            fm.beginTransaction().add(alarmFragment, "alarm");
-
-            return alarmFragment;
-        } else if (position == 6) {
-            FligthInfoFragment fligthInfoFragment = new FligthInfoFragment();
-            fm.beginTransaction().add(fligthInfoFragment, "info");
-
-            return fligthInfoFragment;
         }
-
         return null;
     }
 

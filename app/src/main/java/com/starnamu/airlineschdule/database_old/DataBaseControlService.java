@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.database_1;
+package com.starnamu.airlineschdule.database_old;
 
 import android.app.Service;
 import android.content.Intent;
@@ -17,11 +17,6 @@ public class DataBaseControlService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
-        AlarmDBControll alarmDBControll = new AlarmDBControll(getApplicationContext(), null);
-        SchduldDBControll schduldDBControll = new SchduldDBControll(getApplicationContext(), null);
-
         return super.onStartCommand(intent, flags, startId);
     }
 

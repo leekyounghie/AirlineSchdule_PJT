@@ -1,5 +1,6 @@
 package com.starnamu.airlineschdule;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,46 +13,53 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.database.MyDataBase;
-import com.starnamu.airlineschdule.parser.AirlineItem;
-import com.starnamu.airlineschdule.slidinglayout.SlideLayoutFragment;
+import com.starnamu.airlineschdule.database.SchduldDBControll;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements CommonConventions, SlideLayoutFragment.CustomOnClickListener {
+public class MainActivity extends ActionBarActivity implements CommonConventions {
 
     Toolbar toolbar;
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "지도", "알람", "정보"};
+    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "알람", "정보", "지도"};
     int Numboftabs = Titles.length;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
-    MyDataBase myDataBase;
+    private static Context mainContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainContext = this;
         items = Intro_Activity.items;
         try {
             stateUrlConnation();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        /*DB컨트롤이 필요할경우 myDatabase instance를 사용하라!!*/
-        myDataBase = new MyDataBase(this);
-        myDataBase.insertData(items);
-//        myDataBase.selectAll();
+        thread.start();
+    }
+
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            new SchduldDBControll(getApplicationContext(), items);
+        }
+    });
+
+    public static Context getMainActivityContext() {
+        return mainContext;
     }
 
     private void stateUrlConnation() throws InterruptedException {
         boolean state = true;
-
         while (state) {
             if (items == null) {
                 Log.i("from Intro_Activity", "Null");
@@ -60,10 +68,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
             if (items != null) {
                 startMetrialView();
                 state = false;
-                Thread.sleep(1000);
                 Log.i("from Intro_Activity", "Not Null");
-
-
             }
         }
     }
@@ -87,24 +92,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
             }
         });
         tabs.setViewPager(pager);
-    }
-
-    public void onClicked(int id) {
-
-        switch (id) {
-            case R.id.alramBtn:
-                pager.setCurrentItem(5);
-                break;
-
-            case R.id.mapViewBtn:
-                Log.i("MainActivity", "mapViewBtn");
-                pager.setCurrentItem(4);
-                break;
-
-            case R.id.infoBtn:
-                pager.setCurrentItem(6);
-                break;
-        }
     }
 
     @Override

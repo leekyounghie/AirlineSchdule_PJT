@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.parser;
+package com.starnamu.airlineschdule.slidinglayout;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,26 +13,27 @@ import java.util.ArrayList;
  */
 public class AirLineAdapter extends BaseAdapter {
 
-    ArrayList<AirlineItem> ItemList = new ArrayList<AirlineItem>();
+    ArrayList<AirlineItem> items = new ArrayList<>();
     Context mContext;
+    AirlineItemView view;
 
     public AirLineAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setItemList(ArrayList<AirlineItem> itemList) {
+    public void setItemList(ArrayList<AirlineItem> items) {
 
-        this.ItemList = itemList;
+        this.items = items;
     }
 
     @Override
     public int getCount() {
-        return ItemList.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return ItemList.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -49,14 +50,15 @@ public class AirLineAdapter extends BaseAdapter {
         } else {
             view = (AirlineItemView) convertView;
             //재활용시 재활용되는 View의 속성도 재활용 됨으로 재활용 되는 View를 초기화 해줄 필요가 있다.
-            view.slidingLayout.setVisibility(View.GONE);
+            view.slidingLayoutView.setVisibility(View.GONE);
         }
         if (position % 2 == 0) {
             view.setBackgroundColor(Color.argb(255, 250, 255, 255));
         } else {
             view.setBackgroundColor(Color.argb(255, 240, 255, 255));
         }
-        view.setAirlineItem(ItemList.get(position));
+        view.setAirlineItem(items.get(position));
+
         return view;
     }
 }

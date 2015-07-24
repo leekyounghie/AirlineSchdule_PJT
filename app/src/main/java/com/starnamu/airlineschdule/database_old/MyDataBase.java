@@ -1,4 +1,4 @@
-package com.starnamu.airlineschdule.database;
+package com.starnamu.airlineschdule.database_old;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.starnamu.airlineschdule.comm.CommonConventions;
-import com.starnamu.airlineschdule.parser.AirlineItem;
+import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,10 +39,12 @@ public class MyDataBase implements CommonConventions {
         this.mContext = context;
         this.opener = new OpenHelper(context, SchduleDbName, null, dbVersion);
         db = opener.getWritableDatabase();
+
     }
 
     // 데이터 추가
     public void insertData(ArrayList<AirlineItem> items) {
+
         allRemoveData(SchduleTableName);
 
         this.SchduleItems = items;
@@ -69,6 +71,7 @@ public class MyDataBase implements CommonConventions {
 
 //            }
         }
+        selectAll(SchduleTableName);
     }
 
     // 데이터 갱신
@@ -141,7 +144,8 @@ public class MyDataBase implements CommonConventions {
         } else {
 
         }
-        return selectSchduleTable(results);
+//        return selectSchduleTable(results);
+        return SchduleItems;
     }
 
     private ArrayList<AirlineItem> selectSchduleTable(Cursor results) {
@@ -165,11 +169,11 @@ public class MyDataBase implements CommonConventions {
     private void printLog(ArrayList<AirlineItem> items) {
 
         int j = items.size();
-        int k = j / 10;
+        int k = j / 1;
 
         for (int i = 0; i < k; i++) {
             AirlineItem item = items.get(i);
-            String str = item.getStriItem(1);
+            String str = item.getStriItem(4);
 
             Log.i("MyDataBase.java", str);
         }
