@@ -95,7 +95,7 @@ public class AirlineItemView extends FrameLayout {
                     break;
 
                 case R.id.infoBtn:
-                    viewPager.setCurrentItem(5);
+                    viewPager.setCurrentItem(5) ;
                     break;
 
                 case R.id.mapViewBtn:

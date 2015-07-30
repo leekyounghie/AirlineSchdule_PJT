@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.starnamu.airlineschdule.fragment.AlarmFragment;
+import com.starnamu.airlineschdule.airlinealarmitemgroup.AlarmFragment;
 import com.starnamu.airlineschdule.fragment.ArrivalAirlineFragment;
 import com.starnamu.airlineschdule.fragment.DepartureAirLineFragment;
 import com.starnamu.airlineschdule.fragment.FligthInfoFragment;
@@ -73,14 +73,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return oalDepartureAirLineFragment;
 
         } else if (position == 4) {
-            AlarmFragment alarmFragment = new AlarmFragment();
-            fm.beginTransaction().add(alarmFragment, "alarm");
-            return alarmFragment;
-
-        } else if (position == 5) {
             FligthInfoFragment fligthInfoFragment = new FligthInfoFragment();
             fm.beginTransaction().add(fligthInfoFragment, "info");
             return fligthInfoFragment;
+
+        } else if (position == 5) {
+            AlarmFragment alarmFragment = new AlarmFragment();
+            fm.beginTransaction().add(alarmFragment, "alarm");
+            return alarmFragment;
 
         } else if (position == 6) {
             GoogleMapFragment googleMapFragment = new GoogleMapFragment();
