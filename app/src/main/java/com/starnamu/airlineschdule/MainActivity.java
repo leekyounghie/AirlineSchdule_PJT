@@ -1,6 +1,7 @@
 package com.starnamu.airlineschdule;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,9 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
+import com.starnamu.airlineschdule.airlinealarmitemgroup.AlarmService;
 import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.database.SchduldDBControll;
+import com.starnamu.airlineschdule.mainslidemenu.ChoiceStartAlarmMenu;
 import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
 
@@ -25,7 +29,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "알람", "정보", "지도"};
+    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "정보", "알람", "지도"};
     int Numboftabs = Titles.length;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
@@ -44,7 +48,12 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        thread.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        thread.start();
     }
 
     Thread thread = new Thread(new Runnable() {
@@ -92,6 +101,20 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
             }
         });
         tabs.setViewPager(pager);
+        ChoiceStartAlarmMenu choiceStartAlarmMenu = new ChoiceStartAlarmMenu(this);
+        FrameLayout drawer = (FrameLayout) findViewById(R.id.drawer);
+        drawer.addView(choiceStartAlarmMenu);
+    }
+
+    public void startAlart() {
+        Intent intent = new Intent(this, AlarmService.class);
+        startService(intent);
+    }
+
+    public void stopAlart() {
+        Intent intent = new Intent(this, AlarmService.class);
+        stopService(intent);
+        Log.i("알람 서비스 중지", "알람서비스가 중지 되었습니다");
     }
 
     @Override

@@ -54,6 +54,8 @@ public class Intro_Activity extends ActionBarActivity {
         }
     };
 
+
+
     /*
      *  onBackPressed function override
      *   - intro 화면이 나오는 중에는 back 버튼을 사용하지 못하게 한다.
