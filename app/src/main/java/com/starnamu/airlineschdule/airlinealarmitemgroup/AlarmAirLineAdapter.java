@@ -2,6 +2,7 @@ package com.starnamu.airlineschdule.airlinealarmitemgroup;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -63,24 +64,15 @@ public class AlarmAirLineAdapter extends BaseAdapter {
             @Override
             public boolean onLongClick(View v) {
                 alarmDBControll.removeData(position);
-                onInvalidataMethod();
+                onMyInvality();
                 return false;
             }
         });
         return view;
     }
 
-    public void onInvalidataMethod() {
-        this.notifyDataSetInvalidated();
-    }
-
-    public interface OnDeleteItemListener {
-        void onDeleteItemInt();
-    }
-
-    private OnDeleteItemListener onDeleteItemListener;
-
-    public void setOnDeleteItemListener(OnDeleteItemListener listener){
-        onDeleteItemListener = listener;
+    public void onMyInvality() {
+        this.notifyDataSetChanged();
+        Log.i("어쩌Wjrn", "어쩌구 저쩌규ㅜ");
     }
 }

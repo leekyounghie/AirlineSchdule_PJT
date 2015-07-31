@@ -72,6 +72,8 @@ public class AlarmDBControll implements CommonConventions {
         SQLiteDatabase db = opener.getReadableDatabase();
         String sql = "delete from " + AlarmTableName + " where flightId = " + str + ";";
         db.execSQL(sql);
+
+        Log.i("Database", "delete data");
     }
 
    /* *//*SQLiteDatabase를 스토리지에서 삭제한다.*//*

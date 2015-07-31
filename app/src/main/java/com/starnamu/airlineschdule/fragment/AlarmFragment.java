@@ -27,16 +27,6 @@ public class AlarmFragment extends Fragment implements CommonConventions {
     ArrayList<AirlineItem> items;
 
     public AlarmFragment() {
-
-        AlarmAirLineAdapter.OnDeleteItemListener onDeleteItemListener =
-                new AlarmAirLineAdapter.OnDeleteItemListener() {
-                    @Override
-                    public void onDeleteItemInt() {
-
-                    }
-                };
-
-        onDeleteItemListener.
     }
 
     @Override
@@ -58,14 +48,18 @@ public class AlarmFragment extends Fragment implements CommonConventions {
         v.findViewById(R.id.onDeletAlarmBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alarmDBControll.allRemoveData(AlarmTableName);
-                airlineAdapter = new AlarmAirLineAdapter(getActivity(), alarmDBControll);
-                AlarmListView.setAdapter(airlineAdapter);
-                airlineAdapter.notifyDataSetInvalidated();
+                onMyNotifiyInvalidated();
             }
         });
 
         return v;
+    }
+
+    public void onMyNotifiyInvalidated() {
+        alarmDBControll.allRemoveData(AlarmTableName);
+        airlineAdapter = new AlarmAirLineAdapter(getActivity(), alarmDBControll);
+        AlarmListView.setAdapter(airlineAdapter);
+        airlineAdapter.notifyDataSetInvalidated();
     }
 
     @Override
