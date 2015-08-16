@@ -6,8 +6,10 @@ package com.starnamu.airlineschdule.comm;
 public interface CommonConventions {
 
     String URLHADE = "http://openapi.airport.kr/openapi/service/StatusOfPassengerFlights";
-    String SERVICEKEY = "?ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx4u" +
-            "3hh24IgLuMAr5LEvByuM62KPv7l8Y4qbNUy0AgE2YtWHw%3D%3D";
+//  String SERVICEKEY = "?ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx4u3hh24IgLuMAr5LEvByuM62KPv7l8Y4qbNUy0AgE2YtWHw%3D%3D";
+
+    String SERVICEKEY = "?ServiceKey=RN5il12RYM%2FXFWaIm8otCbez%2B5W1YxN91ZzBtYx" +
+            "4u3hh24IgLuMAr5LEvByuM62KPv7l8Y4qbNUy0AgE2YtWHw%3D%3D";
     String PARRIVALS = "/getPassengerArrivals";
     String PDEPARTURES = "/getPassengerDepartures";
 

@@ -21,12 +21,9 @@ public class AlarmService extends Service {
     AlarmManager am;
 
     private static final String TAG = "TestAlarmManagerActivity";
-    private static final String INTENT_ACTION = "arabiannight.tistory.com.alarmmanager";
-
 
     public AlarmService() {
     }
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -40,8 +37,6 @@ public class AlarmService extends Service {
         am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         this.alarmDBControll = new AlarmDBControll();
         this.items = alarmDBControll.selectData(null);
-        /*this.stopSelf();*/
-
     }
 
     @Override
@@ -71,13 +66,6 @@ public class AlarmService extends Service {
             intentA.setAction(AlarmAction);
             sender = PendingIntent.getBroadcast(this, TimeOfItem, intentA, 0);
 
-            /*알람유뮤확인*/
-            boolean stateAlarm = isAlarmActivated(TimeOfItem, AlarmAction);
-
-            if (stateAlarm == true) {
-                this.stopSelf();
-            }
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.add(Calendar.SECOND, TimeOfItem);
@@ -87,17 +75,21 @@ public class AlarmService extends Service {
     }
 
     // 알람 해제
-    private void releaseAlarm(Context context) {
+    private void releaseAlarm() {
         Log.i(TAG, "releaseAlarm()");
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        for (int i = 0; i < items.size(); i++) {
+            int TimeOfItem = setTimeOfItem(items.get(i).getStriItem(5));
+            Log.i("알람 설정시간", Integer.toString(TimeOfItem));
+            String AlarmAction = items.get(i).getStriItem(3);
 
-        Intent Intent = new Intent(INTENT_ACTION);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, Intent, 0);
-        alarmManager.cancel(pIntent);
+            Intent intentToRele = new Intent(AlarmService.this, AlarmReceiver.class);
+            intentToRele.setAction(AlarmAction);
+            PendingIntent pIntent = PendingIntent.getActivity(this, TimeOfItem, intentToRele, 0);
+            am.cancel(pIntent);
+            pIntent.cancel();
 
-        // 주석을 풀면 먼저 실행되는 알람이 있을 경우, 제거하고
-        // 새로 알람을 실행하게 된다. 상황에 따라 유용하게 사용 할 수 있다.
-//      alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 3000, pIntent);
+            isAlarmActivated(TimeOfItem, AlarmAction);
+        }
     }
 
     private boolean isAlarmActivated(int alarmId, String AlarmAction) {
@@ -107,14 +99,13 @@ public class AlarmService extends Service {
         Intent intentToSend = new Intent(AlarmService.this, AlarmReceiver.class);
         intentToSend.setAction(AlarmAction);
 
-        pIntent = PendingIntent.getBroadcast(this, alarmId, intentToSend, PendingIntent.FLAG_NO_CREATE);
+        pIntent = PendingIntent.getBroadcast(this, alarmId, intentToSend, 0);
 
         result = pIntent != null;
 
         Log.i("알람유뮤확인", "[isAlarmActivated] " + result + " - " + pIntent);
         return result;
     }
-
 
     private int setTimeOfItem(String str) {
         int hour = Integer.parseInt(str.substring(0, 2));
@@ -126,7 +117,6 @@ public class AlarmService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(this, AlarmService.class);
-        this.startService(intent);
+        releaseAlarm();
     }
 }

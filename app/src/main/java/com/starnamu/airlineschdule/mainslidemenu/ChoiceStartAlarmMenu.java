@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.starnamu.airlineschdule.MainActivity;
+import com.starnamu.airlineschdule.airlinealarmitemgroup.CustomAlarm;
 import com.starnamu.projcet.airlineschedule.R;
 
 /**
@@ -14,6 +15,7 @@ import com.starnamu.projcet.airlineschedule.R;
  */
 public class ChoiceStartAlarmMenu extends LinearLayout {
 
+    CustomAlarm customAlarm;
 
     public ChoiceStartAlarmMenu(Context context) {
         super(context);
@@ -26,6 +28,8 @@ public class ChoiceStartAlarmMenu extends LinearLayout {
     }
 
     private void init(final Context context) {
+
+        customAlarm = new CustomAlarm(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.mainslidemenu, this, true);
 
