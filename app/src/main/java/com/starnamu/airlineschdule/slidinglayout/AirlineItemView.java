@@ -2,7 +2,6 @@ package com.starnamu.airlineschdule.slidinglayout;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.starnamu.airlineschdule.MainActivity;
-import com.starnamu.airlineschdule.airlinealarmitemgroup.AlarmService;
+import com.starnamu.airlineschdule.airlinealarmitemgroup.CustomAlarm;
 import com.starnamu.airlineschdule.database.AlarmDBControll;
 import com.starnamu.projcet.airlineschedule.R;
 
@@ -94,9 +93,8 @@ public class AirlineItemView extends FrameLayout {
 //                    viewPager.setCurrentItem(4);
                     alarmDBControll.setDataTable(DAitem);
                     Toast.makeText(getContext(), "알람이 설정되었습니다", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(mainContext, AlarmService.class);
-                    mainContext.startService(intent);
+                    CustomAlarm customAlarm = new CustomAlarm(mainContext);
+                    customAlarm.setAlarm(DAitem.getStriItem(3), DAitem.getStriItem(5));
 
                     break;
 

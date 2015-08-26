@@ -1,7 +1,7 @@
 package com.starnamu.airlineschdule.comm;
 
 /**
- * Created by starnamu on 2015-08-16.
+ * 문자열을 넘겨받아 ASCII Code로 변환 시키는 Class
  */
 public class FlightNumChange {
 

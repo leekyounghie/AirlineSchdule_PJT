@@ -15,7 +15,6 @@ public class AirLineAdapter extends BaseAdapter {
 
     ArrayList<AirlineItem> items = new ArrayList<>();
     Context mContext;
-    AirlineItemView view;
 
     public AirLineAdapter(Context context) {
         this.mContext = context;

@@ -1,7 +1,6 @@
 package com.starnamu.airlineschdule;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,7 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.starnamu.airlineschdule.airlinealarmitemgroup.AlarmService;
+import com.starnamu.airlineschdule.airlinealarmitemgroup.CustomAlarm;
+import com.starnamu.airlineschdule.comm.AirLineItems;
 import com.starnamu.airlineschdule.comm.CommonConventions;
 import com.starnamu.airlineschdule.database.SchduldDBControll;
 import com.starnamu.airlineschdule.mainslidemenu.ChoiceStartAlarmMenu;
@@ -22,6 +22,8 @@ import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
 
 import java.util.ArrayList;
+
+;
 
 public class MainActivity extends ActionBarActivity implements CommonConventions {
 
@@ -42,7 +44,10 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         setContentView(R.layout.activity_main);
 
         mainContext = this;
-        items = Intro_Activity.items;
+
+        AirLineItems airLineItems = AirLineItems.getNewInstance();
+        items = airLineItems.getItems();
+
         try {
             stateUrlConnation();
         } catch (InterruptedException e) {
@@ -78,6 +83,18 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                 startMetrialView();
                 state = false;
                 Log.i("from Intro_Activity", "Not Null");
+                new CustomAlarm(this);
+                /*AlarmDBControll alarmDBControll = new AlarmDBControll();
+                ArrayList<AirlineItem> alarmDBItems = alarmDBControll.selectData(null);
+                for (int i = 0; i > alarmDBItems.size(); i++) {
+                    for (int j = 0; j > items.size(); j++) {
+                        if (alarmDBItems.get(j).getStriItem(3).equals(items.get(i).getStriItem(3))) {
+                            alarmDBControll.removeData(i);
+                            alarmDBControll.setDataTable(alarmDBItems.get(i));
+                        }
+                    }
+                }
+                alarmDBControll.setDataTable(items);*/
             }
         }
     }
@@ -90,11 +107,12 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
         dlDrawer.setDrawerListener(dtToggle);
         pager = (ViewPager) findViewById(R.id.pager);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
         pager.setAdapter(adapter);
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+
             @Override
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.tabsScrollColor);
@@ -106,15 +124,10 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         drawer.addView(choiceStartAlarmMenu);
     }
 
-    public void startAlart() {
-        Intent intent = new Intent(this, AlarmService.class);
-        startService(intent);
-    }
-
-    public void stopAlart() {
-        Intent intent = new Intent(this, AlarmService.class);
-        stopService(intent);
-        Log.i("알람 서비스 중지", "알람서비스가 중지 되었습니다");
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override

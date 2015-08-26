@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.starnamu.projcet.airlineschedule.R;
+import com.starnamu.airlineschdule.comm.AirLineItems;
 import com.starnamu.airlineschdule.comm.CommonConventions;
+import com.starnamu.airlineschdule.comm.CustomTimeControll;
 import com.starnamu.airlineschdule.slidinglayout.AirLineAdapter;
 import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
+import com.starnamu.projcet.airlineschedule.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Edwin on 15/02/2015.
@@ -28,9 +28,13 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
     ArrayList<AirlineItem> ItemList;
     ArrayList<AirlineItem> items;
     int SetTime;
+    CustomTimeControll customTimeControll;
 
     public OALArrivalAirlineFragment() {
-        this.SetTime = currentTime();
+        AirLineItems airLineItems = AirLineItems.getNewInstance();
+        this.items = airLineItems.getItems();
+        customTimeControll = new CustomTimeControll();
+
     }
 
     @Override
@@ -46,11 +50,8 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
         airlineAdapter = new AirLineAdapter(getActivity());
         Log.i("OalArr", "Strar");
 
-        Bundle bundle = getArguments();
-        items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
-
         if (SetTime <= 0) {
-            this.SetTime = currentTime();
+            this.SetTime = customTimeControll.userChoiceTime(7200000L);
         }
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
@@ -77,24 +78,6 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    public int currentTime() {
-        long time1 = System.currentTimeMillis();
-
-        long time2 = time1 - 7200000L;
-        Date date1 = new Date(time1);
-        SimpleDateFormat CurTimeFormat1 = new SimpleDateFormat("HHmm");
-        String strCurTime1 = CurTimeFormat1.format(date1);
-
-        Date date2 = new Date(time2);
-        SimpleDateFormat CurTimeFormat2 = new SimpleDateFormat("HHmm");
-        String strCurTime2 = CurTimeFormat2.format(date2);
-
-        if (time2 <= 0) {
-            return Integer.parseInt(strCurTime1);
-        }
-        return Integer.parseInt(strCurTime2);
     }
 
     public void choiceTime(int choiceTime) {

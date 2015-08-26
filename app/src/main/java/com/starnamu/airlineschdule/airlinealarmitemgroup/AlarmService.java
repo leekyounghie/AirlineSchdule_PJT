@@ -20,7 +20,7 @@ public class AlarmService extends Service {
     ArrayList<AirlineItem> items;
     AlarmManager am;
 
-    private static final String TAG = "TestAlarmManagerActivity";
+    private static final String TAG = "TestAlarm";
 
     public AlarmService() {
     }

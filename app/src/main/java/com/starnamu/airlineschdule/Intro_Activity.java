@@ -5,32 +5,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 
+import com.starnamu.airlineschdule.comm.AirLineItems;
 import com.starnamu.airlineschdule.parser.AirlineParser;
-import com.starnamu.airlineschdule.slidinglayout.AirlineItem;
 import com.starnamu.projcet.airlineschedule.R;
-
-import java.util.ArrayList;
 
 public class Intro_Activity extends ActionBarActivity {
 
     // intro 화면에서 사용할 핸들러를 인스턴트를 생성한다.
     Handler handler_intro;
 
-    AirlineParser parser;
-    static ArrayList<AirlineItem> items;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        items = null;
 
         // 핸들러를 실질적으로 정의하고, 핸들러를 시작하는 지연시간을 설정한다.
+        startCustomHandler();
+    }
+
+    public void startCustomHandler() {
         handler_intro = new Handler();
         handler_intro.postDelayed(run_intro, 500);
-
-       /* parser = new AirlineParser(getApplicationContext(), PDEPARTURES, PARRIVALS);
-        items = parser.getArrayList();*/
     }
 
     /*
@@ -40,11 +35,9 @@ public class Intro_Activity extends ActionBarActivity {
      */
     Runnable run_intro = new Runnable() {
         public void run() {
-            parser = new AirlineParser();
-            items = parser.getArrayList();
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("airlinetime", items);
+            AirlineParser parser = new AirlineParser();
+            AirLineItems airLineItems = AirLineItems.getNewInstance();
+            airLineItems.setItems(parser.getArrayList());
 
             Intent intent = new Intent(Intro_Activity.this, MainActivity.class);
             startActivity(intent);
@@ -53,8 +46,6 @@ public class Intro_Activity extends ActionBarActivity {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     };
-
-
 
     /*
      *  onBackPressed function override

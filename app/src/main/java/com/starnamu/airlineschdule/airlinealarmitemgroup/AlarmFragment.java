@@ -28,6 +28,7 @@ public class AlarmFragment extends Fragment implements CommonConventions {
     ListView AlarmListView;
     AlarmAirLineAdapter airlineAdapter;
     ArrayList<AirlineItem> items;
+    CustomAlarm customAlarm;
 
     public AlarmFragment() {
     }
@@ -44,13 +45,14 @@ public class AlarmFragment extends Fragment implements CommonConventions {
         alarmDBControll = new AlarmDBControll();
         AlarmListView = (ListView) v.findViewById(R.id.AlarmListView);
         items = alarmDBControll.selectData(null);
+        customAlarm = new CustomAlarm(getActivity());
         airlineAdapter = new AlarmAirLineAdapter(getActivity(), alarmDBControll);
-
         AlarmListView.setAdapter(airlineAdapter);
 
         v.findViewById(R.id.onDeletAlarmBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                customAlarm.allReleaseAlarm();
                 alarmDBControll.allRemoveData(AlarmTableName);
                 onAlarmNotify();
             }
@@ -63,7 +65,6 @@ public class AlarmFragment extends Fragment implements CommonConventions {
         airlineAdapter = new AlarmAirLineAdapter(getActivity(), alarmDBControll);
         AlarmListView.setAdapter(airlineAdapter);
         airlineAdapter.notifyDataSetInvalidated();
-
     }
 
 
@@ -108,7 +109,6 @@ public class AlarmFragment extends Fragment implements CommonConventions {
             return position;
         }
 
-
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -128,6 +128,8 @@ public class AlarmFragment extends Fragment implements CommonConventions {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+
+                            customAlarm.releaseAlarm(items.get(position).getStriItem(5));
                             alarmDBControll.removeData(position);
 
                             onAlarmNotify();

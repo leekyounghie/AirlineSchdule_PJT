@@ -4,10 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.starnamu.airlineschdule.MainActivity;
-import com.starnamu.airlineschdule.airlinealarmitemgroup.CustomAlarm;
 import com.starnamu.projcet.airlineschedule.R;
 
 /**
@@ -15,7 +14,8 @@ import com.starnamu.projcet.airlineschedule.R;
  */
 public class ChoiceStartAlarmMenu extends LinearLayout {
 
-    CustomAlarm customAlarm;
+    Button startUpdate;
+    Context mContext;
 
     public ChoiceStartAlarmMenu(Context context) {
         super(context);
@@ -27,23 +27,19 @@ public class ChoiceStartAlarmMenu extends LinearLayout {
         init(context);
     }
 
-    private void init(final Context context) {
+    private void init(Context context) {
+        mContext = context;
 
-        customAlarm = new CustomAlarm(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.mainslidemenu, this, true);
-
-        view.findViewById(R.id.startAlarm).setOnClickListener(new OnClickListener() {
+/*
+        startUpdate = (Button) view.findViewById(R.id.startUpdate);
+        startUpdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) context).startAlart();
+                //Api를 다시 불러와서 items업데이트 후 Fragment의 Listview를 notify한다.
+                AirlineParser airlineParser = new AirlineParser();
             }
-        });
-        view.findViewById(R.id.stopAlarm).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) context).stopAlart();
-            }
-        });
+        });*/
     }
 }

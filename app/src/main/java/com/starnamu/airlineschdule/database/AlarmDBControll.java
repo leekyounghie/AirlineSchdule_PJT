@@ -76,6 +76,32 @@ public class AlarmDBControll implements CommonConventions {
         Log.i("Database", "delete data");
     }
 
+    public void removeData(String FlightId) {
+        SQLiteDatabase db = opener.getReadableDatabase();
+        String sql = "delete from " + AlarmTableName + " where flightId = " + FlightId + ";";
+        db.execSQL(sql);
+
+        Log.i("Database", "delete data");
+    }
+
+
+    /*DB에 있는 시간을 업데이트 하는중*/
+/*
+    public void updateData(String FlightId) {
+        removeData(FlightId);
+        SQLiteDatabase db = opener.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        db.update(AlarmTableName,values,"flight=?",)
+
+
+        for (int j = 0; j < PARSERITEMGROUP.length; j++) {
+            values.put(PARSERITEMGROUP[j], AlarmItem.getStriItem(j));
+        }
+        db.insert(AlarmTableName, null, values);
+        db.close();
+    }*/
+
    /* *//*SQLiteDatabase를 스토리지에서 삭제한다.*//*
     public void myDatabaseDelete() {
         File dbpath = mContext.getDatabasePath(SchduleDbName);

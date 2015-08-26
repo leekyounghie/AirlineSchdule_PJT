@@ -5,15 +5,9 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/startAlarm"
+        android:id="@+id/startUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알람 시작" />
-
-    <Button
-        android:id="@+id/stopAlarm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="알람 중지" />
+        android:text="업데이트" />
 
 </LinearLayout>
